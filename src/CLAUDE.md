@@ -47,11 +47,44 @@ cd frontend && npm install && npm run dev
 # http://localhost:3000
 ```
 
-**后端**：
+**后端**（使用 uv）：
 ```bash
-cd backend && pip install -r requirements.txt && uvicorn main:app --reload
+cd backend && uv sync && uv run uvicorn main:app --reload
 # http://localhost:8000/docs
 ```
+
+### 后端包管理规范（uv）
+
+后端使用 [uv](https://docs.astral.sh/uv/) 进行包管理，**禁止使用 pip**。
+
+**常用命令**：
+```bash
+uv sync                    # 安装依赖（根据 uv.lock）
+uv add fastapi             # 添加依赖
+uv add --dev pytest        # 添加开发依赖
+uv run uvicorn main:app    # 运行命令
+uv run pytest              # 运行测试
+```
+
+**项目初始化**：
+```bash
+cd backend
+uv init                    # 生成 pyproject.toml
+uv add fastapi uvicorn python-dotenv supabase stripe pyjwt
+uv add --dev pytest httpx
+```
+
+**文件说明**：
+| 文件 | 作用 | 是否提交 Git |
+|-----|------|-------------|
+| `pyproject.toml` | 依赖声明 | ✅ |
+| `uv.lock` | 锁定版本 | ✅ |
+| `.venv/` | 虚拟环境 | ❌ |
+
+**注意**：
+- 不要手动编辑 `uv.lock`
+- 不要使用 `pip install`，统一用 `uv add`
+- CI/CD 中使用 `uv sync --frozen` 确保一致性
 
 ---
 
