@@ -6,21 +6,28 @@
 
 ## 自主开发权限
 
-本项目已配置 `.claude/settings.json`，允许 Claude Code 自主执行以下操作：
+本项目已配置 `.claude/settings.json`，启用沙箱模式实现自主开发：
+
+```json
+{
+  "sandbox": { "enabled": true, "autoAllowBashIfSandboxed": true },
+  "permissions": {
+    "defaultMode": "acceptEdits",
+    "allow": ["Read(./**)", "Write(./**)", "Bash(*)", "mcp__puppeteer__*"]
+  }
+}
+```
 
 | 类别 | 允许的操作 |
 |-----|-----------|
 | 文件 | Read, Write, Edit, Glob, Grep（项目内） |
-| Git | status, add, commit, push, log, diff, branch, checkout |
-| 前端 | npm, npx, node |
-| 后端 | uv, uvicorn, python, pytest |
-| 系统 | ls, cat, mkdir, cp, mv, rm, curl, ps, lsof, sleep |
-| 进程 | pkill node/npm/uvicorn |
+| Bash | 所有命令（沙箱隔离） |
+| Puppeteer | navigate, screenshot, click, fill, select, hover, evaluate |
 
-**安全边界**：
-- 仅限项目目录内操作 (`./**`)
-- 禁止危险命令（sudo, rm -rf /, etc.）
-- pkill 仅限开发相关进程
+**安全机制**：
+- `sandbox: enabled` - macOS 沙箱隔离，限制文件系统访问
+- `autoAllowBashIfSandboxed` - 沙箱内自动批准 Bash
+- `defaultMode: acceptEdits` - 自动接受文件编辑
 
 ---
 
