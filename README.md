@@ -33,11 +33,26 @@ claude mcp list
 
 ## 使用方式
 
-### 1. 复制模板到新项目
+### 1. 克隆模板到新项目
 
+**方式 A：保留模板历史**（可追溯模板更新）
 ```bash
-cp -r deliverable/* /path/to/your/project/
-cd /path/to/your/project
+git clone https://github.com/aijcool/spec-pilot.git my-new-app
+cd my-new-app
+git remote set-url origin https://github.com/你的用户名/my-new-app.git
+git push -u origin main
+```
+
+**方式 B：干净的新仓库**（推荐）
+```bash
+git clone https://github.com/aijcool/spec-pilot.git my-new-app
+cd my-new-app
+rm -rf .git
+git init
+git add .
+git commit -m "init: 基于 spec-pilot 模板初始化"
+git remote add origin https://github.com/你的用户名/my-new-app.git
+git push -u origin main
 ```
 
 ### 2. 启动 Claude Code
