@@ -4,6 +4,26 @@
 
 ---
 
+## 自主开发权限
+
+本项目已配置 `.claude/settings.json`，允许 Claude Code 自主执行以下操作：
+
+| 类别 | 允许的操作 |
+|-----|-----------|
+| 文件 | Read, Write, Edit, Glob, Grep（项目内） |
+| Git | status, add, commit, push, log, diff, branch, checkout |
+| 前端 | npm, npx, node |
+| 后端 | uv, uvicorn, python, pytest |
+| 系统 | ls, cat, mkdir, cp, mv, rm, curl, ps, lsof, sleep |
+| 进程 | pkill node/npm/uvicorn |
+
+**安全边界**：
+- 仅限项目目录内操作 (`./**`)
+- 禁止危险命令（sudo, rm -rf /, etc.）
+- pkill 仅限开发相关进程
+
+---
+
 ## 技术栈
 
 | 服务 | 平台 |
